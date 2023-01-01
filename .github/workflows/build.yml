@@ -23,7 +23,7 @@ jobs:
         node-version: 18.x
         cache: 'npm'
     - run: npm ci
-    - run: npm run build
+    - run: PUBLIC_URL=test npm run build
     - name: upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
