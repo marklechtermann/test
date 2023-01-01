@@ -8,9 +8,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -20,3 +24,10 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build
+    - name: upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: ./dist
+    - name: deploy to github pages
+      id: deployment
+      uses: actions/deploy-pages@v1
